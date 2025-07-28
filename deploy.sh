@@ -10,6 +10,6 @@ if [ -n "$CONTAINER_ID" ]; then
 fi
 
 echo "Running new container..."
-docker run -d -p 3000:3000 chakribaggam123/demo:v23
+docker run -d -p 3000:3000 chakribaggam123/demo:v24
 
 echo "Deployment completed!"
