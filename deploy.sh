@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Simulating deployment..."
-CONTAINER_ID=$(docker ps -q --filter "ancestor=your-dockerhub-username/ci-cd-nodejs-demo:latest")
+CONTAINER_ID=$(docker ps -q --filter "ancestor=chakribaggam123/demo")
 
 if [ -n "$CONTAINER_ID" ]; then
   echo "Stopping old container..."
