@@ -1,0 +1,56 @@
+pipeline {
+  agent any
+  tools{
+      nodejs "nodejs-18"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        git 'https://github.com/chakrachand-infra/CI-CD-nodejs-demo.git'
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        dir('app') {
+          sh 'npm install'
+        }
+      }
+    }
+
+    stage('Run Tests') {
+      steps {
+        dir('app') {
+          sh 'npm test'
+        }
+      }
+    }
+
+    stage('Build and Push to Docker Hub') {
+      steps {
+        script {
+          withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
+            sh 'docker build -t chakribaggam123/demo:v24 .'
+            sh 'docker push chakribaggam123/demo:v24'
+          }
+        }
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh 'chmod +x deploy.sh && ./deploy.sh'
+      }
+    }
+  }
+
+  post {
+    success {
+      echo "Pipeline succeeded!"
+    }
+    failure {
+      echo "Pipeline failed!"
+    }
+  }
+}
